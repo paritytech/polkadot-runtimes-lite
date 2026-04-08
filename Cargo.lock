@@ -6811,15 +6811,12 @@ version = "0.1.0"
 dependencies = [
  "cumulus-primitives-core",
  "frame-benchmarking",
- "frame-election-provider-support",
  "frame-support",
  "frame-system",
  "log",
  "pallet-assets",
  "pallet-balances",
- "pallet-election-provider-multi-block",
  "pallet-staking-async",
- "pallet-staking-async-rc-client",
  "pallet-timestamp",
  "parity-scale-codec",
  "scale-info",
@@ -6827,7 +6824,6 @@ dependencies = [
  "sp-core",
  "sp-io",
  "sp-runtime",
- "sp-staking",
  "sp-std",
 ]
 
@@ -7701,15 +7697,11 @@ dependencies = [
  "frame-benchmarking",
  "frame-support",
  "frame-system",
- "pallet-balances",
  "pallet-proxy",
- "pallet-utility",
  "parity-scale-codec",
  "scale-info",
  "sp-core",
- "sp-io",
  "sp-runtime",
- "sp-state-machine",
  "sp-trie",
 ]
 

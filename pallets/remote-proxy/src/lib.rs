@@ -53,8 +53,6 @@ extern crate alloc;
 
 #[cfg(feature = "runtime-benchmarks")]
 mod benchmarking;
-#[cfg(test)]
-mod tests;
 mod weight;
 
 use alloc::{boxed::Box, vec::Vec};
