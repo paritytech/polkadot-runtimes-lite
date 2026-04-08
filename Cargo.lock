@@ -12860,17 +12860,13 @@ dependencies = [
 name = "system-parachains-common"
 version = "1.0.0"
 dependencies = [
- "cumulus-pallet-parachain-system",
- "cumulus-primitives-core",
  "frame-support",
- "log",
  "pallet-multi-asset-bounties",
  "parity-scale-codec",
  "polkadot-primitives",
  "scale-info",
  "sp-api",
  "sp-runtime",
- "sp-state-machine",
 ]
 
 [[package]]
