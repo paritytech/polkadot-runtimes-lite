@@ -276,7 +276,7 @@ mod tests {
 		Encode,
 		Decode,
 		DecodeWithMemTracking,
-		sp_runtime::RuntimeDebug,
+		Debug,
 	)]
 	pub enum OldProxyType {
 		Any,

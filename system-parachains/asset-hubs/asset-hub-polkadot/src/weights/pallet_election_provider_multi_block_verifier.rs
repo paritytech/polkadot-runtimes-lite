@@ -72,7 +72,7 @@ impl<T: frame_system::Config> pallet_election_provider_multi_block::verifier::We
 	/// Proof: `MultiBlockElectionVerifier::QueuedSolutionX` (`max_values`: None, `max_size`: Some(33842026), added: 33844501, mode: `Measured`)
 	/// Storage: `MultiBlockElectionVerifier::QueuedSolutionBackings` (r:0 w:1)
 	/// Proof: `MultiBlockElectionVerifier::QueuedSolutionBackings` (`max_values`: None, `max_size`: Some(52026), added: 54501, mode: `Measured`)
-	fn on_initialize_valid_non_terminal() -> Weight {
+	fn verification_valid_non_terminal() -> Weight {
 		// Proof Size summary in bytes:
 		//  Measured:  `361947`
 		//  Estimated: `370362`
@@ -112,7 +112,7 @@ impl<T: frame_system::Config> pallet_election_provider_multi_block::verifier::We
 	/// Proof: `Balances::Holds` (`max_values`: None, `max_size`: Some(229), added: 2704, mode: `Measured`)
 	/// Storage: `MultiBlockElectionVerifier::QueuedSolutionX` (r:0 w:1)
 	/// Proof: `MultiBlockElectionVerifier::QueuedSolutionX` (`max_values`: None, `max_size`: Some(33842026), added: 33844501, mode: `Measured`)
-	fn on_initialize_valid_terminal() -> Weight {
+	fn verification_valid_terminal() -> Weight {
 		// Proof Size summary in bytes:
 		//  Measured:  `1416316`
 		//  Estimated: `1498981`
@@ -152,7 +152,7 @@ impl<T: frame_system::Config> pallet_election_provider_multi_block::verifier::We
 	/// Proof: `MultiBlockElectionSigned::Invulnerables` (`max_values`: Some(1), `max_size`: Some(513), added: 1008, mode: `Measured`)
 	/// Storage: `MultiBlockElectionVerifier::QueuedSolutionX` (r:31 w:32)
 	/// Proof: `MultiBlockElectionVerifier::QueuedSolutionX` (`max_values`: None, `max_size`: Some(33842026), added: 33844501, mode: `Measured`)
-	fn on_initialize_invalid_terminal() -> Weight {
+	fn verification_invalid_terminal() -> Weight {
 		// Proof Size summary in bytes:
 		//  Measured:  `1417337`
 		//  Estimated: `1500002`
@@ -193,7 +193,7 @@ impl<T: frame_system::Config> pallet_election_provider_multi_block::verifier::We
 	/// Storage: `MultiBlockElectionSigned::Invulnerables` (r:1 w:1)
 	/// Proof: `MultiBlockElectionSigned::Invulnerables` (`max_values`: Some(1), `max_size`: Some(513), added: 1008, mode: `Measured`)
 	/// The range of component `v` is `[0, 31]`.
-	fn on_initialize_invalid_non_terminal(v: u32, ) -> Weight {
+	fn verification_invalid_non_terminal(v: u32, ) -> Weight {
 		// Proof Size summary in bytes:
 		//  Measured:  `451404 + v * (102 ±0)`
 		//  Estimated: `521180 + v * (2230 ±149)`

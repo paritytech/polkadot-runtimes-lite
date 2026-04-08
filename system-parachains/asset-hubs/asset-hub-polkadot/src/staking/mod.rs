@@ -131,6 +131,13 @@ impl pallet_delegated_staking::Config for Runtime {
 impl pallet_dap::Config for Runtime {
 	type Currency = Balances;
 	type PalletId = DapPalletId;
+	type IssuanceCurve = ();
+	type BudgetRecipients = (pallet_dap::Pallet<Runtime>,);
+	type Time = pallet_timestamp::Pallet<Runtime>;
+	type IssuanceCadence = ConstU64<60_000>;
+	type MaxElapsedPerDrip = ConstU64<{ 24 * 60 * 60 * 1000 }>;
+	type BudgetOrigin = EnsureRoot<AccountId>;
+	type WeightInfo = ();
 }
 
 #[cfg(feature = "runtime-benchmarks")]
@@ -177,6 +184,7 @@ impl multi_block::Config for Runtime {
 	// Revert back to signed phase if nothing is submitted and queued, so we prolong the election.
 	type AreWeDone = multi_block::RevertToSignedIfNotQueuedOf<Self>;
 	type OnRoundRotation = multi_block::CleanRound<Self>;
+	type Signed = MultiBlockElectionSigned;
 	type WeightInfo = weights::pallet_election_provider_multi_block::WeightInfo<Runtime>;
 }
 
@@ -185,7 +193,6 @@ impl multi_block::verifier::Config for Runtime {
 	type MaxBackersPerWinner = MaxBackersPerWinner;
 	type MaxBackersPerWinnerFinal = MaxBackersPerWinnerFinal;
 	type SolutionDataProvider = MultiBlockElectionSigned;
-	type SolutionImprovementThreshold = ();
 	type WeightInfo = weights::pallet_election_provider_multi_block_verifier::WeightInfo<Runtime>;
 }
 
@@ -440,7 +447,6 @@ impl pallet_staking_async::Config for Runtime {
 	type HistoryDepth = frame_support::traits::ConstU32<84>;
 	type MaxControllersInDeprecationBatch = MaxControllersInDeprecationBatch;
 	type EventListeners = (NominationPools, DelegatedStaking);
-	type MaxInvulnerables = frame_support::traits::ConstU32<20>;
 	// This will start election for the next era as soon as an era starts.
 	type PlanningEraOffset = ConstU32<6>;
 	type RcClientInterface = StakingRcClient;
@@ -1071,7 +1077,7 @@ mod tests {
 			use multi_block::WeightInfo;
 			analyze_weight(
 				"snapshot_msp",
-				<Runtime as multi_block::Config>::WeightInfo::on_initialize_into_snapshot_msp(),
+				<Runtime as multi_block::Config>::WeightInfo::per_block_snapshot_msp(),
 				<Runtime as frame_system::Config>::BlockWeights::get().max_block,
 				Some(Percent::from_percent(75)),
 			);
@@ -1082,7 +1088,7 @@ mod tests {
 			use multi_block::WeightInfo;
 			analyze_weight(
 				"snapshot_rest",
-				<Runtime as multi_block::Config>::WeightInfo::on_initialize_into_snapshot_rest(),
+				<Runtime as multi_block::Config>::WeightInfo::per_block_snapshot_rest(),
 				<Runtime as frame_system::Config>::BlockWeights::get().max_block,
 				Some(Percent::from_percent(75)),
 			);
@@ -1093,14 +1099,14 @@ mod tests {
 			use multi_block::verifier::WeightInfo;
 			analyze_weight(
 				"verifier valid terminal",
-				<Runtime as multi_block::verifier::Config>::WeightInfo::on_initialize_valid_terminal(),
+				<Runtime as multi_block::verifier::Config>::WeightInfo::verification_valid_terminal(),
 				<Runtime as frame_system::Config>::BlockWeights::get().max_block,
 				Some(Percent::from_percent(75)),
 			);
 
 			analyze_weight(
 				"verifier invalid terminal",
-				<Runtime as multi_block::verifier::Config>::WeightInfo::on_initialize_invalid_terminal(),
+				<Runtime as multi_block::verifier::Config>::WeightInfo::verification_invalid_terminal(),
 				<Runtime as frame_system::Config>::BlockWeights::get().max_block,
 				Some(Percent::from_percent(75)),
 			);
