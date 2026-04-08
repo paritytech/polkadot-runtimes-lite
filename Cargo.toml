@@ -11,9 +11,7 @@ pallet-ah-ops = { path = "pallets/ah-ops", default-features = false }
 pallet-election-provider-multi-block = { version = "0.6.1", default-features = false }
 pallet-staking-async = { version = "0.10.4", default-features = false }
 hex = { version = "0.4.3", default-features = false }
-rand = { version = "0.9.2" }
 impl-trait-for-tuples = { version = "0.2.3", default-features = false }
-assert_matches = { version = "1.5.0" }
 approx = { version = "0.5.1" }
 array-bytes = { version = "9.3.0" }
 asset-hub-polkadot-runtime = { path = "system-parachains/asset-hubs/asset-hub-polkadot" }
@@ -44,7 +42,6 @@ cumulus-pallet-xcmp-queue = { version = "0.25.0", default-features = false }
 cumulus-primitives-aura = { version = "0.21.0", default-features = false }
 cumulus-primitives-core = { version = "0.23.0", default-features = false }
 cumulus-primitives-utility = { version = "0.25.0", default-features = false }
-enumflags2 = { version = "0.7.7" }
 frame-benchmarking = { version = "45.0.3", default-features = false }
 frame-election-provider-support = { version = "45.0.0", default-features = false }
 frame-executive = { version = "45.0.1", default-features = false }
@@ -127,7 +124,6 @@ pallet-xcm-bridge-hub-router = { version = "0.23.0", default-features = false }
 parachain-info = { version = "0.25.0", default-features = false, package = "staging-parachain-info" }
 parachains-common = { version = "27.1.0", default-features = false }
 parachains-runtimes-test-utils = { version = "28.0.0" }
-paste = { version = "1.0.14" }
 polkadot-core-primitives = { version = "21.0.0", default-features = false }
 polkadot-parachain-primitives = { version = "20.0.0", default-features = false }
 polkadot-primitives = { version = "22.0.0", default-features = false }
@@ -181,8 +177,6 @@ xcm = { version = "21.0.0", default-features = false, package = "staging-xcm" }
 xcm-builder = { version = "25.0.0", default-features = false, package = "staging-xcm-builder" }
 xcm-executor = { version = "24.0.1", default-features = false, package = "staging-xcm-executor" }
 xcm-runtime-apis = { version = "0.12.0", default-features = false }
-anyhow = { version = "1.0.82" }
-tuplex = { version = "0.1.0", default-features = false }
 
 ss58-registry = { version = "1.47.0" }
 
