@@ -14,7 +14,6 @@ serde = { features = ["derive"], workspace = true }
 polkadot-runtime = { workspace = true, optional = true }
 
 sc-chain-spec = { workspace = true }
-sc-network = { workspace = true }
 
 asset-hub-polkadot-runtime = { workspace = true, optional = true }
 

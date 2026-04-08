@@ -1968,7 +1968,6 @@ dependencies = [
  "clap",
  "polkadot-runtime",
  "sc-chain-spec",
- "sc-network",
  "serde",
  "serde_json",
 ]
