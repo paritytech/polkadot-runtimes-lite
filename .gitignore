@@ -25,17 +25,6 @@
 /.cargo/config
 /.envrc
 artifacts
-bin/node-template/Cargo.lock
-nohup.out
-polkadot_argument_parsing
-polkadot.*
-pwasm-alloc/Cargo.lock
-pwasm-libc/Cargo.lock
-release-artifacts
-release.json
-rls*.log
-runtime/wasm/target/
-substrate.code-workspace
 target/
 **/__pycache__/
 *.snap

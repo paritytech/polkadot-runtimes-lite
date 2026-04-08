@@ -16,8 +16,6 @@
 
 #![cfg_attr(not(feature = "std"), no_std)]
 
-extern crate alloc;
-
 pub mod weights;
 
 pub use self::currency::DOLLARS;
