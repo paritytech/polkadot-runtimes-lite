@@ -1,6 +1,6 @@
 [package]
-name = "bp-bridge-hub-polkadot"
-description = "Primitives of BridgeHubPolkadot parachain runtime."
+name = "bp-bridge-hub-kusama"
+description = "Primitives of BridgeHubKusama parachain runtime."
 repository.workspace = true
 version.workspace = true
 authors.workspace = true
@@ -20,16 +20,12 @@ bp-header-chain = { workspace = true }
 bp-polkadot-core = { workspace = true }
 bp-runtime = { workspace = true }
 bp-messages = { workspace = true }
-snowbridge-core = { workspace = true }
 
 # Substrate Based Dependencies
 frame-support = { workspace = true }
 sp-api = { workspace = true }
 sp-runtime = { workspace = true }
 sp-std = { workspace = true }
-
-# Polkadot
-xcm = { workspace = true }
 
 [features]
 default = ["std"]
@@ -42,19 +38,15 @@ std = [
 	"frame-support/std",
 	"kusama-runtime-constants/std",
 	"polkadot-runtime-constants/std",
-	"snowbridge-core/std",
 	"sp-api/std",
 	"sp-runtime/std",
 	"sp-std/std",
 	"system-parachains-constants/std",
-	"xcm/std",
 ]
 runtime-benchmarks = [
 	"frame-support/runtime-benchmarks",
 	"kusama-runtime-constants/runtime-benchmarks",
 	"polkadot-runtime-constants/runtime-benchmarks",
-	"snowbridge-core/runtime-benchmarks",
 	"sp-runtime/runtime-benchmarks",
 	"system-parachains-constants/runtime-benchmarks",
-	"xcm/runtime-benchmarks",
 ]

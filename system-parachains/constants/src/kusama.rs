@@ -1,0 +1,172 @@
+// Copyright (C) Parity Technologies (UK) Ltd.
+// SPDX-License-Identifier: Apache-2.0
+
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// 	http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+/// Consensus-related.
+pub mod consensus {
+	/// Maximum number of blocks simultaneously accepted by the Runtime, not yet included
+	/// into the relay chain.
+	pub const UNINCLUDED_SEGMENT_CAPACITY: u32 = 1;
+	/// How many parachain blocks are processed by the relay chain per parent. Limits the
+	/// number of blocks authored per slot.
+	pub const BLOCK_PROCESSING_VELOCITY: u32 = 1;
+	/// Relay chain slot duration, in milliseconds.
+	pub const RELAY_CHAIN_SLOT_DURATION_MILLIS: u32 = 6000;
+
+	/// Parameters enabling async backing functionality.
+	///
+	/// Once all system chains have migrated to the new async backing mechanism, the parameters
+	/// in this namespace will replace those currently defined in `super::*`.
+	pub mod async_backing {
+		/// Maximum number of blocks simultaneously accepted by the Runtime, not yet included into
+		/// the relay chain.
+		pub const UNINCLUDED_SEGMENT_CAPACITY: u32 = 3;
+	}
+
+	/// Parameters enabling elastic scaling functionality.
+	pub mod elastic_scaling {
+		/// Build with an offset of 1 behind the relay chain.
+		pub const RELAY_PARENT_OFFSET: u32 = 1;
+
+		/// The upper limit of how many parachain blocks are processed by the relay chain per
+		/// parent. Limits the number of blocks authored per slot. This determines the minimum
+		/// block time of the parachain:
+		/// `RELAY_CHAIN_SLOT_DURATION_MILLIS/BLOCK_PROCESSING_VELOCITY`
+		pub const BLOCK_PROCESSING_VELOCITY: u32 = 3;
+
+		/// Maximum number of blocks simultaneously accepted by the Runtime, not yet included
+		/// into the relay chain.
+		pub const UNINCLUDED_SEGMENT_CAPACITY: u32 =
+			(3 + RELAY_PARENT_OFFSET) * BLOCK_PROCESSING_VELOCITY;
+	}
+}
+
+/// Constants relating to KSM.
+pub mod currency {
+	use polkadot_core_primitives::Balance;
+
+	/// The default existential deposit for system chains. 1/10th of the Relay Chain's existential
+	/// deposit. Individual system parachains may modify this in special cases.
+	pub const SYSTEM_PARA_EXISTENTIAL_DEPOSIT: Balance =
+		kusama_runtime_constants::currency::EXISTENTIAL_DEPOSIT / 10;
+
+	/// One "KSM" that a UI would show a user.
+	pub const UNITS: Balance = 1_000_000_000_000;
+	pub const QUID: Balance = UNITS / 30;
+	pub const CENTS: Balance = QUID / 100;
+	pub const GRAND: Balance = QUID * 1_000;
+	pub const MILLICENTS: Balance = CENTS / 1_000;
+
+	/// Deposit rate for stored data. 1/100th of the Relay Chain's deposit rate. `items` is the
+	/// number of keys in storage and `bytes` is the size of the value.
+	pub const fn system_para_deposit(items: u32, bytes: u32) -> Balance {
+		kusama_runtime_constants::currency::deposit(items, bytes) / 100
+	}
+}
+
+/// Constants related to Kusama fee payment.
+pub mod fee {
+	use kusama_runtime_constants::weights::ExtrinsicBaseWeight;
+	use polkadot_core_primitives::Balance;
+	pub use sp_runtime::Perbill;
+
+	/// The block saturation level. Fees will be updates based on this value.
+	pub const TARGET_BLOCK_FULLNESS: Perbill = Perbill::from_percent(25);
+
+	/// Cost of every transaction byte at Kusama system parachains.
+	///
+	/// It is the Relay Chain (Kusama) `TransactionByteFee` / 10.
+	pub const TRANSACTION_BYTE_FEE: Balance = super::currency::MILLICENTS;
+
+	/// The two generic parameters of `BlockRatioFee` define a rational number that defines the
+	/// ref_time to fee mapping. The numbers chosen here are exactly the same as the one from the
+	/// `WeightToFeePolynomial` that was used before.
+	pub type WeightToFee<Runtime> = pallet_revive::evm::fees::BlockRatioFee<
+		{ super::currency::CENTS },
+		{ (100 * ExtrinsicBaseWeight::get().ref_time()) as u128 },
+		Runtime,
+		Balance,
+	>;
+}
+
+pub mod locations {
+	use frame_support::{parameter_types, traits::Contains};
+	pub use kusama_runtime_constants::system_parachain::{AssetHubParaId, PeopleParaId};
+	use xcm::latest::prelude::{Junction::*, Location};
+
+	parameter_types! {
+		pub RelayChainLocation: Location = Location::parent();
+		pub AssetHubLocation: Location =
+			Location::new(1, Parachain(kusama_runtime_constants::system_parachain::ASSET_HUB_ID));
+		pub PeopleLocation: Location =
+			Location::new(1, Parachain(kusama_runtime_constants::system_parachain::PEOPLE_ID));
+	}
+
+	/// `Contains` implementation for the asset hub location pluralities.
+	pub struct AssetHubPlurality;
+	impl Contains<Location> for AssetHubPlurality {
+		fn contains(loc: &Location) -> bool {
+			matches!(
+				loc.unpack(),
+				(
+					1,
+					[
+						Parachain(kusama_runtime_constants::system_parachain::ASSET_HUB_ID),
+						Plurality { .. }
+					]
+				)
+			)
+		}
+	}
+}
+
+/// Fellowship-related constants.
+pub mod fellowship {
+	use frame_support::traits::Contains;
+	use xcm::latest::prelude::*;
+
+	/// Fellowship Fellows rank (rank 3). The minimum rank with Fellowship privileges
+	/// in XCM location filters. Used with `GeneralIndex` in XCM locations.
+	pub const FELLOWS_RANK: u128 = 3;
+	/// Fellowship Architects rank (rank 4). Used with `GeneralIndex` in XCM locations.
+	pub const ARCHITECTS_RANK: u128 = 4;
+
+	/// Matches Fellowship voice locations in both Kusama and Polkadot Technical Fellowships.
+	///
+	/// - Kusama: `[Parent, Plurality { id: Technical, part: Voice }]`
+	/// - Bridged Polkadot: `[Parent, Parent, GlobalConsensus(Polkadot), Parachain(1001), Plurality
+	///   { id: Technical, part: Voice }, GeneralIndex(rank)]` where `rank >= FELLOWS_RANK`
+	///
+	/// Use this in Parachain runtimes as a drop-in replacement for `IsVoiceOfBody<Prefix,
+	/// FellowsBodyId>` in dispatch origin checks to support the new rank-qualified Fellowship XCM
+	/// locations.
+	///
+	/// WARNING: only use this on parachains, the hardcoded fellowship locations do not match when
+	/// used in the context of the Relay Chain.
+	pub struct IsFellowshipVoice;
+	impl Contains<Location> for IsFellowshipVoice {
+		fn contains(l: &Location) -> bool {
+			match l.unpack() {
+				// Kusama Technical Fellowship
+				(1, [Plurality { id: BodyId::Technical, part: BodyPart::Voice }]) => true,
+				// Polkadot Technical Fellowship
+				(
+					2,
+					[GlobalConsensus(Polkadot), Parachain(1001), Plurality { id: BodyId::Technical, part: BodyPart::Voice }, GeneralIndex(rank)],
+				) if *rank >= FELLOWS_RANK => true,
+				_ => false,
+			}
+		}
+	}
+}

@@ -19,6 +19,7 @@
 extern crate alloc;
 
 pub mod genesis_presets;
+pub mod kusama;
 pub mod polkadot;
 
 use frame_support::{

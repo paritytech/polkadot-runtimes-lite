@@ -19,8 +19,10 @@ serde_json = { features = ["alloc"], workspace = true }
 
 # Local
 bp-asset-hub-polkadot = { workspace = true }
+bp-bridge-hub-kusama = { workspace = true }
 bp-bridge-hub-polkadot = { workspace = true }
 collectives-polkadot-runtime-constants = { workspace = true }
+kusama-runtime-constants = { workspace = true }
 polkadot-runtime-constants = { workspace = true }
 system-parachains-constants = { workspace = true }
 system-parachains-common = { workspace = true, features = ["multi-asset-bounties"] }
@@ -169,7 +171,7 @@ runtime-benchmarks = [
 	"assets-common/runtime-benchmarks",
 
 	"bp-asset-hub-polkadot/runtime-benchmarks",
-
+	"bp-bridge-hub-kusama/runtime-benchmarks",
 	"bp-bridge-hub-polkadot/runtime-benchmarks",
 	"cumulus-pallet-parachain-system/runtime-benchmarks",
 	"cumulus-pallet-session-benchmarking/runtime-benchmarks",
@@ -182,7 +184,7 @@ runtime-benchmarks = [
 	"frame-support/runtime-benchmarks",
 	"frame-system-benchmarking/runtime-benchmarks",
 	"frame-system/runtime-benchmarks",
-
+	"kusama-runtime-constants/runtime-benchmarks",
 	"pallet-ah-ops/runtime-benchmarks",
 	"pallet-asset-conversion-tx-payment/runtime-benchmarks",
 	"pallet-asset-conversion/runtime-benchmarks",
@@ -325,7 +327,7 @@ std = [
 	"beefy-primitives/std",
 
 	"bp-asset-hub-polkadot/std",
-
+	"bp-bridge-hub-kusama/std",
 	"bp-bridge-hub-polkadot/std",
 	"codec/std",
 	"cumulus-pallet-aura-ext/std",
@@ -348,7 +350,7 @@ std = [
 	"frame-try-runtime?/std",
 	"grandpa-primitives/std",
 	"hex/std",
-
+	"kusama-runtime-constants/std",
 	"log/std",
 	"pallet-ah-ops/std",
 	"pallet-asset-conversion-tx-payment/std",
