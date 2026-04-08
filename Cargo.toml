@@ -25,7 +25,6 @@ beefy-primitives = { version = "28.0.0", default-features = false, package = "sp
 binary-merkle-tree = { version = "16.1.0", default-features = false }
 bp-asset-hub-polkadot = { path = "system-parachains/asset-hubs/asset-hub-polkadot/primitives", default-features = false }
 bp-bridge-hub-cumulus = { version = "0.27.0", default-features = false }
-bp-bridge-hub-kusama = { path = "system-parachains/bridge-hubs/bridge-hub-kusama/primitives", default-features = false }
 bp-bridge-hub-polkadot = { path = "system-parachains/bridge-hubs/bridge-hub-polkadot/primitives", default-features = false }
 bp-header-chain = { version = "0.25.0", default-features = false }
 bp-messages = { version = "0.25.0", default-features = false }
@@ -55,7 +54,7 @@ frame-system-rpc-runtime-api = { version = "40.0.0", default-features = false }
 frame-try-runtime = { version = "0.51.0", default-features = false }
 grandpa-primitives = { version = "27.0.0", default-features = false, package = "sp-consensus-grandpa" }
 hex-literal = { version = "0.4.1" }
-kusama-runtime-constants = { path = "relay/kusama/constants", default-features = false }
+
 log = { version = "0.4.22", default-features = false }
 pallet-asset-conversion = { version = "27.0.0", default-features = false }
 pallet-asset-conversion-tx-payment = { version = "27.0.1", default-features = false }
@@ -196,13 +195,13 @@ members = [
 	"pallets/rc-migrator",
 	"pallets/remote-proxy",
 
-	"relay/kusama/constants",
+
 	"relay/polkadot",
 	"relay/polkadot/constants",
 
 	"system-parachains/asset-hubs/asset-hub-polkadot",
 	"system-parachains/asset-hubs/asset-hub-polkadot/primitives",
-	"system-parachains/bridge-hubs/bridge-hub-kusama/primitives",
+
 	"system-parachains/bridge-hubs/bridge-hub-polkadot/primitives",
 	"system-parachains/collectives/collectives-polkadot/constants",
 	"system-parachains/common",

@@ -663,7 +663,7 @@ pub mod bridging {
 		/// Base price of every Polkadot -> Kusama message. Can be adjusted via
 		/// governance `set_storage` call.
 		pub storage XcmBridgeHubRouterBaseFee: Balance = bp_bridge_hub_polkadot::estimate_polkadot_to_kusama_message_fee(
-			bp_bridge_hub_kusama::BridgeHubKusamaBaseDeliveryFeeInKsms::get()
+			709_970_588u128
 		);
 		/// Price of every byte of the Polkadot -> Kusama message. Can be adjusted via
 		/// governance `set_storage` call.
@@ -700,7 +700,7 @@ pub mod bridging {
 				2,
 				[
 					GlobalConsensus(KusamaNetwork::get()),
-					Parachain(kusama_runtime_constants::system_parachain::ASSET_HUB_ID),
+					Parachain(1000),
 				],
 			);
 			pub KsmLocation: Location = Location::new(2, GlobalConsensus(KusamaNetwork::get()));

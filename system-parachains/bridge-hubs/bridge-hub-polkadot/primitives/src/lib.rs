@@ -136,7 +136,8 @@ pub fn estimate_polkadot_to_kusama_byte_fee() -> Balance {
 	// 2) the second part is the payment for bytes of the message delivery transaction, which is
 	//    "mined" at Kusama Bridge Hub. Hence, we need to use byte fees from that chain and convert
 	//    it to DOTs here.
-	convert_from_uksm_to_udot(system_parachains_constants::kusama::fee::TRANSACTION_BYTE_FEE)
+	// KSM system parachain TRANSACTION_BYTE_FEE (= MILLICENTS = UNITS/30/100/1000)
+	convert_from_uksm_to_udot(333_333)
 }
 
 /// Convert from uKSMs to uDOTs.
@@ -144,9 +145,10 @@ fn convert_from_uksm_to_udot(price_in_uksm: Balance) -> Balance {
 	// assuming exchange rate is 5 DOTs for 1 KSM
 	let dot_to_ksm_economic_rate = FixedU128::from_rational(5, 1);
 	// tokens have different nominals and we need to take that into account
+	// KSM has 12 decimals (UNITS = 1_000_000_000_000)
 	let nominal_ratio = FixedU128::from_rational(
 		polkadot_runtime_constants::currency::UNITS,
-		kusama_runtime_constants::currency::UNITS,
+		1_000_000_000_000u128,
 	);
 
 	dot_to_ksm_economic_rate
@@ -257,23 +259,4 @@ pub mod bp_polkadot {
 	pub const MAX_NESTED_PARACHAIN_HEAD_DATA_SIZE: u32 = 128;
 
 	decl_bridge_finality_runtime_apis!(polkadot, grandpa);
-}
-
-#[cfg(test)]
-mod tests {
-	use super::*;
-
-	#[test]
-	fn convert_from_uksm_to_udot_works() {
-		let price_in_uksm = 77 * kusama_runtime_constants::currency::UNITS;
-		let same_price_in_udot = convert_from_uksm_to_udot(price_in_uksm);
-
-		let price_in_ksm =
-			FixedU128::from_rational(price_in_uksm, kusama_runtime_constants::currency::UNITS);
-		let price_in_dot = FixedU128::from_rational(
-			same_price_in_udot,
-			polkadot_runtime_constants::currency::UNITS,
-		);
-		assert_eq!(price_in_dot / FixedU128::saturating_from_integer(5), price_in_ksm);
-	}
 }

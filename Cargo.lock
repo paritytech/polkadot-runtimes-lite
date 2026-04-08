@@ -1006,7 +1006,6 @@ dependencies = [
  "asset-test-utils",
  "assets-common",
  "bp-asset-hub-polkadot",
- "bp-bridge-hub-kusama",
  "bp-bridge-hub-polkadot",
  "collectives-polkadot-runtime-constants",
  "cumulus-pallet-aura-ext",
@@ -1030,7 +1029,6 @@ dependencies = [
  "frame-try-runtime",
  "hex",
  "hex-literal",
- "kusama-runtime-constants",
  "log",
  "pallet-ah-ops",
  "pallet-asset-conversion",
@@ -1605,24 +1603,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "bp-bridge-hub-kusama"
-version = "1.0.0"
-dependencies = [
- "bp-bridge-hub-cumulus",
- "bp-header-chain",
- "bp-messages",
- "bp-polkadot-core",
- "bp-runtime",
- "frame-support",
- "kusama-runtime-constants",
- "polkadot-runtime-constants",
- "sp-api",
- "sp-runtime",
- "sp-std",
- "system-parachains-constants",
-]
-
-[[package]]
 name = "bp-bridge-hub-polkadot"
 version = "1.0.0"
 dependencies = [
@@ -1632,14 +1612,12 @@ dependencies = [
  "bp-polkadot-core",
  "bp-runtime",
  "frame-support",
- "kusama-runtime-constants",
  "polkadot-runtime-constants",
  "snowbridge-core",
  "sp-api",
  "sp-runtime",
  "sp-std",
  "staging-xcm",
- "system-parachains-constants",
 ]
 
 [[package]]
@@ -5394,24 +5372,6 @@ name = "keystream"
 version = "1.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c33070833c9ee02266356de0c43f723152bd38bd96ddf52c82b3af10c9138b28"
-
-[[package]]
-name = "kusama-runtime-constants"
-version = "1.0.0"
-dependencies = [
- "frame-support",
- "pallet-remote-proxy",
- "parity-scale-codec",
- "polkadot-primitives",
- "polkadot-runtime-common",
- "scale-info",
- "smallvec",
- "sp-core",
- "sp-runtime",
- "sp-trie",
- "sp-weights",
- "staging-xcm-builder",
-]
 
 [[package]]
 name = "kvdb"
@@ -12880,7 +12840,6 @@ version = "1.0.0"
 dependencies = [
  "array-bytes 9.3.0",
  "frame-support",
- "kusama-runtime-constants",
  "pallet-revive",
  "parachains-common",
  "polkadot-core-primitives",
