@@ -1005,7 +1005,6 @@ dependencies = [
  "approx",
  "asset-test-utils",
  "assets-common",
- "bp-asset-hub-kusama",
  "bp-asset-hub-polkadot",
  "bp-bridge-hub-kusama",
  "bp-bridge-hub-polkadot",
@@ -1573,19 +1572,6 @@ dependencies = [
  "parity-scale-codec",
  "scale-info",
  "serde",
-]
-
-[[package]]
-name = "bp-asset-hub-kusama"
-version = "1.0.0"
-dependencies = [
- "bp-xcm-bridge-hub-router",
- "frame-support",
- "parity-scale-codec",
- "scale-info",
- "sp-core",
- "staging-xcm",
- "system-parachains-constants",
 ]
 
 [[package]]
@@ -8736,7 +8722,6 @@ dependencies = [
  "polkadot-runtime-common",
  "polkadot-runtime-constants",
  "polkadot-runtime-parachains",
- "relay-common",
  "scale-info",
  "separator",
  "serde_json",
@@ -9893,15 +9878,6 @@ name = "regex-syntax"
 version = "0.8.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7a2d987857b319362043e95f5353c0535c1f58eec5336fdfcf626430af7def58"
-
-[[package]]
-name = "relay-common"
-version = "1.0.0"
-dependencies = [
- "pallet-staking-reward-fn",
- "polkadot-primitives",
- "sp-runtime",
-]
 
 [[package]]
 name = "resolv-conf"
