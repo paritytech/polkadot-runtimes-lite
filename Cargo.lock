@@ -7579,7 +7579,6 @@ dependencies = [
  "pallet-xcm",
  "parity-scale-codec",
  "scale-info",
- "serde",
  "sp-api",
  "sp-runtime",
 ]

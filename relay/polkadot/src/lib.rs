@@ -1780,7 +1780,6 @@ impl OnSwap for SwapLeases {
 
 impl pallet_rc_migrator::Config for Runtime {
 	type RuntimeOrigin = RuntimeOrigin;
-	type Currency = Balances;
 }
 
 construct_runtime! {

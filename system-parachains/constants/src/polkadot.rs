@@ -15,24 +15,8 @@
 
 /// Consensus-related.
 pub mod consensus {
-	/// Maximum number of blocks simultaneously accepted by the Runtime, not yet included
-	/// into the relay chain.
-	pub const UNINCLUDED_SEGMENT_CAPACITY: u32 = 1;
-	/// How many parachain blocks are processed by the relay chain per parent. Limits the
-	/// number of blocks authored per slot.
-	pub const BLOCK_PROCESSING_VELOCITY: u32 = 1;
 	/// Relay chain slot duration, in milliseconds.
 	pub const RELAY_CHAIN_SLOT_DURATION_MILLIS: u32 = 6000;
-
-	/// Parameters enabling async backing functionality.
-	///
-	/// Once all system chains have migrated to the new async backing mechanism, the parameters
-	/// in this namespace will replace those currently defined in `super::*`.
-	pub mod async_backing {
-		/// Maximum number of blocks simultaneously accepted by the Runtime, not yet included into
-		/// the relay chain.
-		pub const UNINCLUDED_SEGMENT_CAPACITY: u32 = 3;
-	}
 
 	/// Parameters enabling elastic scaling functionality.
 	pub mod elastic_scaling {
@@ -79,11 +63,6 @@ pub mod currency {
 pub mod fee {
 	use polkadot_core_primitives::Balance;
 	use polkadot_runtime_constants::weights::ExtrinsicBaseWeight;
-	pub use sp_runtime::Perbill;
-
-	/// The block saturation level. Fees will be updates based on this value.
-	pub const TARGET_BLOCK_FULLNESS: Perbill = Perbill::from_percent(25);
-
 	/// Cost of every transaction byte at Polkadot system parachains.
 	///
 	/// It is the Relay Chain (Polkadot) `TransactionByteFee` / 20.

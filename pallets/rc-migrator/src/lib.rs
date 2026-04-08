@@ -33,62 +33,10 @@
 
 pub use pallet::*;
 
-use frame_support::{
-	pallet_prelude::*,
-	traits::{
-		fungible::{InspectFreeze, Mutate, MutateFreeze, MutateHold},
-		LockableCurrency, ReservableCurrency,
-	},
-};
+use frame_support::pallet_prelude::*;
 use frame_system::pallet_prelude::BlockNumberFor;
 use pallet_balances::AccountData;
 use sp_runtime::AccountId32;
-
-/// The state for the Relay Chain accounts.
-#[derive(
-	Encode,
-	DecodeWithMemTracking,
-	Decode,
-	Clone,
-	PartialEq,
-	Eq,
-	RuntimeDebug,
-	TypeInfo,
-	MaxEncodedLen,
-)]
-pub enum AccountState<Balance> {
-	/// The account should be migrated to AH and removed on RC.
-	Migrate,
-
-	/// The account must stay on RC with its balance.
-	///
-	/// E.g., RC system account.
-	Preserve,
-
-	// We might not need the `Part` variation since there are no many cases for `Part` we can just
-	// keep the whole account balance on RC
-	/// The part of the account must be preserved on RC.
-	///
-	/// Cases:
-	/// - accounts placed deposit for parachain registration (paras_registrar pallet);
-	/// - accounts placed deposit for hrmp channel registration (parachains_hrmp pallet);
-	/// - accounts storing the keys within the session pallet with a consumer reference.
-	Part {
-		/// The free balance that must be preserved on RC.
-		///
-		/// Includes ED.
-		free: Balance,
-		/// The reserved balance that should be must be preserved on RC.
-		///
-		/// In practice reserved by old `Currency` api and has no associated reason.
-		reserved: Balance,
-		/// The number of consumers that must be preserved on RC.
-		///
-		/// Generally one consumer reference of reserved balance or/and consumer reference of the
-		/// session pallet.
-		consumers: u32,
-	},
-}
 
 #[frame_support::pallet]
 pub mod pallet {
@@ -104,24 +52,7 @@ pub mod pallet {
 		type RuntimeOrigin: Into<Result<pallet_xcm::Origin, <Self as Config>::RuntimeOrigin>>
 			+ IsType<<Self as frame_system::Config>::RuntimeOrigin>
 			+ From<frame_system::RawOrigin<Self::AccountId>>;
-
-		/// Native asset registry type.
-		type Currency: Mutate<Self::AccountId, Balance = u128>
-			+ MutateHold<Self::AccountId>
-			+ InspectFreeze<Self::AccountId>
-			+ MutateFreeze<Self::AccountId>
-			+ ReservableCurrency<Self::AccountId, Balance = u128>
-			+ LockableCurrency<Self::AccountId, Balance = u128>;
 	}
-
-	#[pallet::error]
-	pub enum Error<T> {}
-
-	/// Helper storage item to obtain and store the known accounts that should be kept partially or
-	/// fully on Relay Chain.
-	#[pallet::storage]
-	pub type RcAccounts<T: Config> =
-		CountedStorageMap<_, Twox64Concat, T::AccountId, AccountState<u128>, OptionQuery>;
 
 	/// The block number when the migration started.
 	#[pallet::storage]

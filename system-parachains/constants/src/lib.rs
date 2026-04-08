@@ -31,14 +31,12 @@ pub mod async_backing {
 	pub use parachains_common::BlockNumber;
 	use sp_runtime::Perbill;
 
-	/// The average expected block time that we are targeting.
 	pub const MILLISECS_PER_BLOCK: u64 = 6_000;
 	pub const SLOT_DURATION: u64 = 12_000;
 
 	// Time is measured by number of blocks.
 	pub const MINUTES: BlockNumber = 60_000 / (MILLISECS_PER_BLOCK as BlockNumber);
 	pub const HOURS: BlockNumber = MINUTES * 60;
-	pub const DAYS: BlockNumber = HOURS * 24;
 
 	/// We assume that ~5% of the block weight is consumed by `on_initialize` handlers. This is
 	/// used to limit the maximal weight of a single extrinsic.
