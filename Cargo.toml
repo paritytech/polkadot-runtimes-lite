@@ -162,7 +162,6 @@ sp-runtime = { version = "45.0.0", default-features = false }
 sp-session = { version = "42.0.0", default-features = false }
 sp-staking = { version = "42.2.0", default-features = false }
 sp-std = { version = "14.0.0", default-features = false }
-sp-state-machine = { version = "0.49.0", default-features = false }
 sp-storage = { version = "22.0.0", default-features = false }
 sp-tracing = { version = "19.0.0", default-features = false }
 sp-transaction-pool = { version = "40.0.0", default-features = false }

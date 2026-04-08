@@ -357,6 +357,3 @@ on-chain-release-build = ["metadata-hash", "polkadot-ahm", "sp-api/disable-loggi
 # Set timing constants (e.g. session period) to faster versions to speed up testing.
 fast-runtime = []
 
-runtime-metrics = ["runtime-parachains/runtime-metrics", "sp-io/with-tracing"]
-
-force-debug = ["sp-debug-derive/force-debug"]

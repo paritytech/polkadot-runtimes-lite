@@ -1578,12 +1578,7 @@ dependencies = [
 name = "bp-asset-hub-polkadot"
 version = "1.0.0"
 dependencies = [
- "bp-xcm-bridge-hub-router",
  "frame-support",
- "parity-scale-codec",
- "scale-info",
- "sp-core",
- "staging-xcm",
  "system-parachains-constants",
 ]
 
@@ -1608,18 +1603,7 @@ dependencies = [
 name = "bp-bridge-hub-kusama"
 version = "1.0.0"
 dependencies = [
- "bp-bridge-hub-cumulus",
- "bp-header-chain",
- "bp-messages",
- "bp-polkadot-core",
- "bp-runtime",
  "frame-support",
- "kusama-runtime-constants",
- "polkadot-runtime-constants",
- "sp-api",
- "sp-runtime",
- "sp-std",
- "system-parachains-constants",
 ]
 
 [[package]]
@@ -1627,17 +1611,10 @@ name = "bp-bridge-hub-polkadot"
 version = "1.0.0"
 dependencies = [
  "bp-bridge-hub-cumulus",
- "bp-header-chain",
- "bp-messages",
- "bp-polkadot-core",
- "bp-runtime",
  "frame-support",
  "kusama-runtime-constants",
  "polkadot-runtime-constants",
- "snowbridge-core",
- "sp-api",
  "sp-runtime",
- "sp-std",
  "staging-xcm",
  "system-parachains-constants",
 ]
@@ -7607,65 +7584,15 @@ dependencies = [
 name = "pallet-rc-migrator"
 version = "0.1.0"
 dependencies = [
- "frame-benchmarking",
- "frame-election-provider-support",
  "frame-support",
  "frame-system",
- "hex-literal",
- "impl-trait-for-tuples",
- "log",
- "pallet-asset-rate",
- "pallet-bags-list",
  "pallet-balances",
- "pallet-bounties",
- "pallet-child-bounties",
- "pallet-conviction-voting",
- "pallet-delegated-staking",
- "pallet-fast-unstake",
- "pallet-indices",
- "pallet-message-queue",
- "pallet-multisig",
- "pallet-nomination-pools",
- "pallet-preimage",
- "pallet-proxy",
- "pallet-recovery",
- "pallet-referenda",
- "pallet-scheduler",
- "pallet-session",
- "pallet-society",
- "pallet-staking",
- "pallet-staking-async",
- "pallet-staking-async-ah-client",
- "pallet-state-trie-migration",
- "pallet-treasury",
- "pallet-vesting",
  "pallet-xcm",
  "parity-scale-codec",
- "polkadot-parachain-primitives",
- "polkadot-runtime-common",
- "polkadot-runtime-parachains",
  "scale-info",
  "serde",
  "sp-api",
- "sp-core",
- "sp-io",
  "sp-runtime",
- "sp-staking",
- "sp-std",
- "staging-xcm",
- "staging-xcm-builder",
- "staging-xcm-executor",
-]
-
-[[package]]
-name = "pallet-recovery"
-version = "45.0.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ff0e74f1f04c59885cb421ec85225135c63ee793d60411fdb36adfe2518ee1e9"
-dependencies = [
- "parity-scale-codec",
- "polkadot-sdk-frame",
- "scale-info",
 ]
 
 [[package]]
@@ -7858,24 +7785,6 @@ dependencies = [
  "rand 0.8.5",
  "sp-runtime",
  "sp-session",
-]
-
-[[package]]
-name = "pallet-society"
-version = "45.1.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1bb738526ccaf243513c4d93879bfdcfacae3c8c482c0c7107bc84567fb6a539"
-dependencies = [
- "frame-benchmarking",
- "frame-support",
- "frame-system",
- "log",
- "parity-scale-codec",
- "rand_chacha 0.3.1",
- "scale-info",
- "sp-arithmetic",
- "sp-io",
- "sp-runtime",
 ]
 
 [[package]]
@@ -8804,7 +8713,6 @@ name = "polkadot-runtime-constants"
 version = "1.0.0"
 dependencies = [
  "frame-support",
- "pallet-remote-proxy",
  "parity-scale-codec",
  "polkadot-primitives",
  "polkadot-runtime-common",
@@ -8812,7 +8720,6 @@ dependencies = [
  "smallvec",
  "sp-core",
  "sp-runtime",
- "sp-trie",
  "sp-weights",
  "staging-xcm",
  "staging-xcm-builder",
@@ -8875,7 +8782,6 @@ dependencies = [
  "sp-session",
  "sp-staking",
  "sp-std",
- "sp-tracing",
  "staging-xcm",
  "staging-xcm-executor",
  "static_assertions",
@@ -12875,7 +12781,6 @@ version = "1.0.0"
 dependencies = [
  "array-bytes 9.3.0",
  "frame-support",
- "kusama-runtime-constants",
  "pallet-revive",
  "parachains-common",
  "polkadot-core-primitives",

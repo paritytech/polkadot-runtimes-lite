@@ -48,11 +48,10 @@ use frame_support::{
 		fungibles::{Inspect as FungiblesInspect, Mutate as FungiblesMutate},
 		tokens::{Fortitude, Preservation},
 		Currency, Defensive, LockableCurrency, ReservableCurrency,
-		WithdrawReasons as LockWithdrawReasons,
 	},
 };
 use frame_system::pallet_prelude::*;
-use pallet_balances::{AccountData, Reasons as LockReasons};
+use pallet_balances::AccountData;
 use sp_application_crypto::ByteArray;
 use sp_core::blake2_256;
 use sp_runtime::{
@@ -730,13 +729,4 @@ pub fn derivative_account_id_recursive<AccountId: Encode + Decode>(
 		account = derivative_account_id(account, *index);
 	}
 	account
-}
-
-/// Backward mapping from https://github.com/paritytech/polkadot-sdk/blob/74a5e1a242274ddaadac1feb3990fc95c8612079/substrate/frame/balances/src/types.rs#L38
-pub fn map_lock_reason(reasons: LockReasons) -> LockWithdrawReasons {
-	match reasons {
-		LockReasons::All => LockWithdrawReasons::TRANSACTION_PAYMENT | LockWithdrawReasons::RESERVE,
-		LockReasons::Fee => LockWithdrawReasons::TRANSACTION_PAYMENT,
-		LockReasons::Misc => LockWithdrawReasons::TIP,
-	}
 }
