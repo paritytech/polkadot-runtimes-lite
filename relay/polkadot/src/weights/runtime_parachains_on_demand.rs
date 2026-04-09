@@ -58,11 +58,19 @@ impl<T: frame_system::Config> runtime_parachains::on_demand::WeightInfo for Weig
 	/// Proof: `OnDemand::ParaIdAffinity` (`max_values`: None, `max_size`: None, mode: `Measured`)
 	/// Storage: `OnDemand::FreeEntries` (r:1 w:1)
 	/// Proof: `OnDemand::FreeEntries` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
-	fn place_order_keep_alive() -> Weight {
+	/// The range of component `s` is `[1, 9999]`.
+	fn place_order_keep_alive() -> Weight { // TODO @ggwpez
+		// Proof Size summary in bytes:
+		//  Measured:  `132 + s * (8 ±0)`
+		//  Estimated: `3595 + s * (8 ±0)`
+		// Minimum execution time: 54_411_000 picoseconds.
 		Weight::from_parts(38_323_240, 0)
 			.saturating_add(Weight::from_parts(0, 3595))
+			// Standard Error: 219
+			.saturating_add(Weight::from_parts(25_418, 0))
 			.saturating_add(T::DbWeight::get().reads(5))
 			.saturating_add(T::DbWeight::get().writes(4))
+			.saturating_add(Weight::from_parts(0, 8))
 	}
 	/// Storage: `OnDemand::QueueStatus` (r:1 w:1)
 	/// Proof: `OnDemand::QueueStatus` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
@@ -74,11 +82,19 @@ impl<T: frame_system::Config> runtime_parachains::on_demand::WeightInfo for Weig
 	/// Proof: `OnDemand::ParaIdAffinity` (`max_values`: None, `max_size`: None, mode: `Measured`)
 	/// Storage: `OnDemand::FreeEntries` (r:1 w:1)
 	/// Proof: `OnDemand::FreeEntries` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
-	fn place_order_allow_death() -> Weight {
+	/// The range of component `s` is `[1, 9999]`.
+	fn place_order_allow_death() -> Weight { // TODO @ggwpez
+		// Proof Size summary in bytes:
+		//  Measured:  `132 + s * (8 ±0)`
+		//  Estimated: `3595 + s * (8 ±0)`
+		// Minimum execution time: 54_202_000 picoseconds.
 		Weight::from_parts(37_765_771, 0)
 			.saturating_add(Weight::from_parts(0, 3595))
+			// Standard Error: 204
+			.saturating_add(Weight::from_parts(26_052, 0))
 			.saturating_add(T::DbWeight::get().reads(5))
 			.saturating_add(T::DbWeight::get().writes(4))
+			.saturating_add(Weight::from_parts(0, 8))
 	}
 	/// Storage: `OnDemand::QueueStatus` (r:1 w:1)
 	/// Proof: `OnDemand::QueueStatus` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
@@ -90,10 +106,18 @@ impl<T: frame_system::Config> runtime_parachains::on_demand::WeightInfo for Weig
 	/// Proof: `OnDemand::ParaIdAffinity` (`max_values`: None, `max_size`: None, mode: `Measured`)
 	/// Storage: `OnDemand::FreeEntries` (r:1 w:1)
 	/// Proof: `OnDemand::FreeEntries` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
-	fn place_order_with_credits() -> Weight {
+	/// The range of component `s` is `[1, 9999]`.
+	fn place_order_with_credits() -> Weight { // TODO @ggwpez
+		// Proof Size summary in bytes:
+		//  Measured:  `166 + s * (8 ±0)`
+		//  Estimated: `3629 + s * (8 ±0)`
+		// Minimum execution time: 29_381_000 picoseconds.
 		Weight::from_parts(13_341_399, 0)
 			.saturating_add(Weight::from_parts(0, 3629))
+			// Standard Error: 221
+			.saturating_add(Weight::from_parts(24_934, 0))
 			.saturating_add(T::DbWeight::get().reads(5))
 			.saturating_add(T::DbWeight::get().writes(4))
+			.saturating_add(Weight::from_parts(0, 8))
 	}
 }
