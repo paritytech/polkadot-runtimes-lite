@@ -122,13 +122,24 @@ The staking configuration is in `system-parachains/asset-hubs/asset-hub-polkadot
 
 The relay chain treasury uses `PayOverXcm` to make payments via XCM to Asset Hub. The second type parameter of `PayOverXcm` is the **XcmConfig** (not the XcmRouter — this changed in recent SDK versions).
 
+## Resolving compilation and compatibility issues
+
+When you encounter compilation errors, missing trait items, API changes, weight signature mismatches, or any other compatibility issue, **always reference the polkadot-sdk source at the exact commit specified in `Cargo.toml`** to see how other runtimes handle it. The SDK repo is at https://github.com/paritytech/polkadot-sdk — read the `rev = "..."` from the workspace `Cargo.toml` to know which commit to look at.
+
+After `cargo update` fetches the SDK, the checkout lives at `~/.cargo/git/checkouts/polkadot-sdk-*/` (the hash suffix varies). Use the reference runtimes there as the source of truth:
+
+- **Relay chain**: `polkadot/runtime/rococo/` or `polkadot/runtime/westend/`
+- **Asset Hub**: `cumulus/parachains/runtimes/assets/asset-hub-westend/`
+
+These runtimes show the correct trait implementations, config values, weight function signatures, and genesis preset patterns for the SDK version we depend on. When in doubt, copy what they do.
+
 ## Common SDK update patterns
 
 When updating the polkadot-sdk git revision, expect these kinds of breaks:
 
 | Pattern | What to do |
 |---------|-----------|
-| Missing trait items in pallet `Config` | Add the new associated types. Check SDK test mocks or reference runtimes (e.g., `rococo`, `asset-hub-westend`) for values |
+| Missing trait items in pallet `Config` | Add the new associated types — check reference runtimes for values |
 | Weight function renames | Rename in the weight file to match the new `WeightInfo` trait |
 | Weight function parameter changes | Update signature (often params are removed) |
 | Removed trait items | Delete from the impl block |
@@ -136,13 +147,6 @@ When updating the polkadot-sdk git revision, expect these kinds of breaks:
 | Moved modules | Update import paths (e.g., `assigner_coretime` → scheduler submodule) |
 | New `Config` supertrait bounds | Implement the new required config (e.g., `PermitConfig`) |
 | Session API version bumps | Update `generate_session_keys` signature |
-
-Reference runtimes for comparison:
-- Relay: `/polkadot/runtime/rococo/` or `/polkadot/runtime/westend/` in the SDK
-- Asset Hub: `/cumulus/parachains/runtimes/assets/asset-hub-westend/` in the SDK
-
-The SDK checkout after `cargo update` lives at:
-`~/.cargo/git/checkouts/polkadot-sdk-*/` (the hash suffix varies).
 
 ## Formatting
 

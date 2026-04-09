@@ -1455,6 +1455,7 @@ impl pallet_revive::Config for Runtime {
 	// Must be set to `false` in a live chain
 	type DebugEnabled = ConstBool<true>;
 	type GasScale = ConstU32<80_000>;
+	type AutoMap = ConstBool<false>;
 	type OnBurn = ();
 }
 
