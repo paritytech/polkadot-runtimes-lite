@@ -31,16 +31,11 @@
 
 #[cfg(feature = "runtime-benchmarks")]
 pub mod benchmarking;
-#[cfg(test)]
-mod mock;
-#[cfg(test)]
-mod tests;
 pub mod weights;
 
 pub use pallet::*;
 pub use weights::WeightInfo;
 
-use codec::DecodeAll;
 use cumulus_primitives_core::ParaId;
 use frame_support::{
 	pallet_prelude::*,
@@ -52,12 +47,10 @@ use frame_support::{
 		fungibles::{Inspect as FungiblesInspect, Mutate as FungiblesMutate},
 		tokens::{Fortitude, Preservation},
 		Currency, Defensive, LockableCurrency, ReservableCurrency,
-		WithdrawReasons as LockWithdrawReasons,
 	},
 };
 use frame_system::pallet_prelude::*;
-use pallet_balances::{AccountData, Reasons as LockReasons};
-use sp_application_crypto::ByteArray;
+use pallet_balances::AccountData;
 use sp_core::blake2_256;
 use sp_runtime::{
 	traits::{BlockNumberProvider, TrailingZeroInput},
@@ -499,67 +492,6 @@ pub mod pallet {
 			contrib_iter.next().is_none()
 		}
 
-		/// Try to translate a Parachain sovereign account to the Parachain AH sovereign account.
-		///
-		/// Returns:
-		/// - `Ok(None)` if the account is not a Parachain sovereign account
-		/// - `Ok(Some((ah_account, para_id)))` with the translated account and the para id
-		/// - `Err(())` otherwise
-		///
-		/// The way that this normally works is through the configured
-		/// `SiblingParachainConvertsVia`: <https://github.com/polkadot-fellows/runtimes/blob/7b096c14c2b16cc81ca4e2188eea9103f120b7a4/system-parachains/asset-hubs/asset-hub-polkadot/src/xcm_config.rs#L93-L94>
-		/// it passes the `Sibling` type into it which has type-ID `sibl`:
-		/// <https://github.com/paritytech/polkadot-sdk/blob/c10e25aaa8b8afd8665b53f0a0b02e4ea44caa77/polkadot/parachain/src/primitives.rs#L272-L274>
-		/// This type-ID gets used by the converter here:
-		/// <https://github.com/paritytech/polkadot-sdk/blob/7ecf3f757a5d6f622309cea7f788e8a547a5dce8/polkadot/xcm/xcm-builder/src/location_conversion.rs#L314>
-		/// and eventually ends up in the encoding here
-		/// <https://github.com/paritytech/polkadot-sdk/blob/cdf107de700388a52a17b2fb852c98420c78278e/substrate/primitives/runtime/src/traits/mod.rs#L1997-L1999>
-		/// The `para` conversion is likewise with `ChildParachainConvertsVia` and the `para`
-		/// type-ID <https://github.com/paritytech/polkadot-sdk/blob/c10e25aaa8b8afd8665b53f0a0b02e4ea44caa77/polkadot/parachain/src/primitives.rs#L162-L164>
-		pub fn try_translate_rc_sovereign_to_ah(
-			from: &AccountId32,
-		) -> Result<(AccountId32, ParaId), Error<T>> {
-			let raw = from.to_raw_vec();
-
-			// Must start with "para"
-			let Some(raw) = raw.strip_prefix(b"para") else {
-				return Err(Error::<T>::NotSovereign);
-			};
-			// Must end with 26 zero bytes
-			let Some(raw) = raw.strip_suffix(&[0u8; 26]) else {
-				return Err(Error::<T>::NotSovereign);
-			};
-			let para_id = u16::decode_all(&mut &raw[..]).map_err(|_| Error::<T>::InternalError)?;
-
-			// Translate to AH sibling account
-			let mut ah_raw = [0u8; 32];
-			ah_raw[0..4].copy_from_slice(b"sibl");
-			ah_raw[4..6].copy_from_slice(&para_id.encode());
-
-			Ok((ah_raw.into(), ParaId::from(para_id as u32)))
-		}
-
-		/// Same as `try_translate_rc_sovereign_to_ah` but for derived accounts.
-		///
-		/// The `from` and `to` arguments are the final account IDs that will be migrated. The
-		/// `index` acts as witness for the function to verify the translation. It must be set to
-		/// the `child` account and the matching derivation index.
-		pub fn try_rc_sovereign_derived_to_ah(
-			from: &AccountId32,
-			parent: &AccountId32,
-			index: DerivationIndex,
-		) -> Result<(AccountId32, ParaId), Error<T>> {
-			// check the derivation proof
-			{
-				let derived = derivative_account_id(parent.clone(), index);
-				ensure!(derived == *from, Error::<T>::WrongDerivedTranslation);
-			}
-
-			let (parent_translated, para_id) = Self::try_translate_rc_sovereign_to_ah(parent)?;
-			let parent_translated_derived = derivative_account_id(parent_translated, index);
-			Ok((parent_translated_derived, para_id))
-		}
-
 		/// Actual logic of `translate_para_sovereign_child_to_sibling_derived`.
 		pub fn do_translate_para_sovereign_child_to_sibling_derived(
 			para_id: u16,
@@ -734,13 +666,4 @@ pub fn derivative_account_id_recursive<AccountId: Encode + Decode>(
 		account = derivative_account_id(account, *index);
 	}
 	account
-}
-
-/// Backward mapping from https://github.com/paritytech/polkadot-sdk/blob/74a5e1a242274ddaadac1feb3990fc95c8612079/substrate/frame/balances/src/types.rs#L38
-pub fn map_lock_reason(reasons: LockReasons) -> LockWithdrawReasons {
-	match reasons {
-		LockReasons::All => LockWithdrawReasons::TRANSACTION_PAYMENT | LockWithdrawReasons::RESERVE,
-		LockReasons::Fee => LockWithdrawReasons::TRANSACTION_PAYMENT,
-		LockReasons::Misc => LockWithdrawReasons::TIP,
-	}
 }

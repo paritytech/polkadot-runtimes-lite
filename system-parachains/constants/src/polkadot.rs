@@ -13,50 +13,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/// Universally recognized accounts.
-pub mod account {
-	use frame_support::PalletId;
-
-	/// Polkadot treasury pallet id, used to convert into AccountId
-	pub const POLKADOT_TREASURY_PALLET_ID: PalletId = PalletId(*b"py/trsry");
-	/// Alliance pallet ID.
-	/// Used as a temporary place to deposit a slashed imbalance before teleporting to the Treasury.
-	pub const ALLIANCE_PALLET_ID: PalletId = PalletId(*b"py/allia");
-	/// Referenda pallet ID.
-	/// Used as a temporary place to deposit a slashed imbalance before teleporting to the Treasury.
-	pub const REFERENDA_PALLET_ID: PalletId = PalletId(*b"py/refer");
-	/// Ambassador Referenda pallet ID.
-	/// Used as a temporary place to deposit a slashed imbalance before teleporting to the Treasury.
-	pub const AMBASSADOR_REFERENDA_PALLET_ID: PalletId = PalletId(*b"py/amref");
-	/// Identity pallet ID.
-	/// Used as a temporary place to deposit a slashed imbalance before teleporting to the Treasury.
-	pub const IDENTITY_PALLET_ID: PalletId = PalletId(*b"py/ident");
-	/// Fellowship treasury pallet ID
-	pub const FELLOWSHIP_TREASURY_PALLET_ID: PalletId = PalletId(*b"py/feltr");
-	/// Ambassador treasury pallet ID
-	pub const AMBASSADOR_TREASURY_PALLET_ID: PalletId = PalletId(*b"py/ambtr");
-}
-
 /// Consensus-related.
 pub mod consensus {
-	/// Maximum number of blocks simultaneously accepted by the Runtime, not yet included
-	/// into the relay chain.
-	pub const UNINCLUDED_SEGMENT_CAPACITY: u32 = 1;
-	/// How many parachain blocks are processed by the relay chain per parent. Limits the
-	/// number of blocks authored per slot.
-	pub const BLOCK_PROCESSING_VELOCITY: u32 = 1;
 	/// Relay chain slot duration, in milliseconds.
 	pub const RELAY_CHAIN_SLOT_DURATION_MILLIS: u32 = 6000;
-
-	/// Parameters enabling async backing functionality.
-	///
-	/// Once all system chains have migrated to the new async backing mechanism, the parameters
-	/// in this namespace will replace those currently defined in `super::*`.
-	pub mod async_backing {
-		/// Maximum number of blocks simultaneously accepted by the Runtime, not yet included into
-		/// the relay chain.
-		pub const UNINCLUDED_SEGMENT_CAPACITY: u32 = 3;
-	}
 
 	/// Parameters enabling elastic scaling functionality.
 	pub mod elastic_scaling {
@@ -103,11 +63,6 @@ pub mod currency {
 pub mod fee {
 	use polkadot_core_primitives::Balance;
 	use polkadot_runtime_constants::weights::ExtrinsicBaseWeight;
-	pub use sp_runtime::Perbill;
-
-	/// The block saturation level. Fees will be updates based on this value.
-	pub const TARGET_BLOCK_FULLNESS: Perbill = Perbill::from_percent(25);
-
 	/// Cost of every transaction byte at Polkadot system parachains.
 	///
 	/// It is the Relay Chain (Polkadot) `TransactionByteFee` / 20.
@@ -126,7 +81,7 @@ pub mod fee {
 
 pub mod locations {
 	use frame_support::{parameter_types, traits::Contains};
-	use xcm::latest::prelude::{Junction::*, Location, NetworkId};
+	use xcm::latest::prelude::{Junction::*, Location};
 
 	parameter_types! {
 		pub RelayChainLocation: Location = Location::parent();
@@ -134,10 +89,6 @@ pub mod locations {
 			Location::new(1, Parachain(polkadot_runtime_constants::system_parachain::ASSET_HUB_ID));
 		pub PeopleLocation: Location =
 			Location::new(1, Parachain(polkadot_runtime_constants::system_parachain::PEOPLE_ID));
-
-		pub GovernanceLocation: Location = Location::parent();
-
-		pub EthereumNetwork: NetworkId = NetworkId::Ethereum { chain_id: 1 };
 	}
 
 	/// `Contains` implementation for the asset hub location pluralities.

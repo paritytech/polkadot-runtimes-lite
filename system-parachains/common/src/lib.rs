@@ -19,8 +19,6 @@
 
 use frame_support::migrations::FailedMigrationHandling;
 
-pub mod randomness;
-
 #[cfg(feature = "multi-asset-bounties")]
 pub mod multi_asset_bounty_sources;
 

@@ -107,7 +107,7 @@ fn asset_hub_polkadot_genesis(
 			..Default::default()
 		},
 		"revive": ReviveConfig {
-			mapped_accounts: endowed_accounts.iter().filter(|x| ! pallet_revive::is_eth_derived(x)).cloned().collect(),
+			mapped_accounts: endowed_accounts.to_vec(),
 			accounts: Vec::new(),
 			debug_settings: None,
 		},

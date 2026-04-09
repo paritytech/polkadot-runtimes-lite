@@ -16,13 +16,8 @@
 // along with Polkadot.  If not, see <http://www.gnu.org/licenses/>.
 
 use crate::{
-	relay_chain_specs::{KusamaChainSpec, PolkadotChainSpec},
-	system_parachains_specs::{
-		AssetHubKusamaChainSpec, AssetHubPolkadotChainSpec, BridgeHubKusamaChainSpec,
-		BridgeHubPolkadotChainSpec, CollectivesPolkadotChainSpec, CoretimeKusamaChainSpec,
-		CoretimePolkadotChainSpec, EncointerKusamaChainSpec, GluttonKusamaChainSpec,
-		PeopleKusamaChainSpec, PeoplePolkadotChainSpec,
-	},
+	relay_chain_specs::PolkadotChainSpec,
+	system_parachains_specs::AssetHubPolkadotChainSpec,
 	ChainSpec,
 };
 
@@ -40,30 +35,8 @@ pub fn from_json_file(filepath: &str, supported: String) -> Result<Box<dyn Chain
 	match &chain_spec.id {
 		x if x.starts_with("polkadot") | x.starts_with("dot") =>
 			Ok(Box::new(PolkadotChainSpec::from_json_file(path)?)),
-		x if x.starts_with("kusama") | x.starts_with("ksm") =>
-			Ok(Box::new(KusamaChainSpec::from_json_file(path)?)),
 		x if x.starts_with("asset-hub-polkadot") =>
 			Ok(Box::new(AssetHubPolkadotChainSpec::from_json_file(path)?)),
-		x if x.starts_with("asset-hub-kusama") =>
-			Ok(Box::new(AssetHubKusamaChainSpec::from_json_file(path)?)),
-		x if x.starts_with("collectives-polkadot") =>
-			Ok(Box::new(CollectivesPolkadotChainSpec::from_json_file(path)?)),
-		x if x.starts_with("bridge-hub-polkadot") =>
-			Ok(Box::new(BridgeHubPolkadotChainSpec::from_json_file(path)?)),
-		x if x.starts_with("bridge-hub-kusama") =>
-			Ok(Box::new(BridgeHubKusamaChainSpec::from_json_file(path)?)),
-		x if x.starts_with("coretime-kusama") =>
-			Ok(Box::new(CoretimeKusamaChainSpec::from_json_file(path)?)),
-		x if x.starts_with("coretime-polkadot") =>
-			Ok(Box::new(CoretimePolkadotChainSpec::from_json_file(path)?)),
-		x if x.starts_with("glutton-kusama") =>
-			Ok(Box::new(GluttonKusamaChainSpec::from_json_file(path)?)),
-		x if x.starts_with("encointer-kusama") =>
-			Ok(Box::new(EncointerKusamaChainSpec::from_json_file(path)?)),
-		x if x.starts_with("people-kusama") =>
-			Ok(Box::new(PeopleKusamaChainSpec::from_json_file(path)?)),
-		x if x.starts_with("people-polkadot") =>
-			Ok(Box::new(PeoplePolkadotChainSpec::from_json_file(path)?)),
 		_ => Err(format!("Unknown chain 'id' in json file. Only supported: {supported}'")),
 	}
 }

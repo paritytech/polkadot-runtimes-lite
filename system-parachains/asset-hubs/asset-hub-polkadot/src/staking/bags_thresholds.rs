@@ -19,16 +19,6 @@
 //! Generated on 2021-10-14T08:36:33.156699497+00:00
 //! for the polkadot runtime.
 
-/// Existential weight for this runtime.
-#[cfg(any(test, feature = "std"))]
-#[allow(unused)]
-pub const EXISTENTIAL_WEIGHT: u64 = 10_000_000_000;
-
-/// Constant ratio between bags for this runtime.
-#[cfg(any(test, feature = "std"))]
-#[allow(unused)]
-pub const CONSTANT_RATIO: f64 = 1.1131723507077667;
-
 /// Upper thresholds delimiting the bag list.
 pub const THRESHOLDS: [u64; 200] = [
 	10_000_000_000,
