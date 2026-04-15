@@ -74,4 +74,3 @@ pub fn polkadot_local_testnet_config() -> Result<Box<dyn ChainSpec>, String> {
 		.build(),
 	))
 }
-

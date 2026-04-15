@@ -33,6 +33,5 @@ pub mod fee {
 	///
 	/// It is the Relay Chain (Kusama) `TransactionByteFee`
 	/// / 10.
-	pub const TRANSACTION_BYTE_FEE: Balance =
-		super::currency::MILLICENTS;
+	pub const TRANSACTION_BYTE_FEE: Balance = super::currency::MILLICENTS;
 }

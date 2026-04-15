@@ -722,6 +722,20 @@ impl<T: frame_system::Config> pallet_staking_async::WeightInfo for WeightInfo<T>
 			.saturating_add(Weight::from_parts(0, 0))
 			.saturating_add(T::DbWeight::get().writes(1))
 	}
+	/// Storage: `Staking::MinCommission` (r:1 w:0)
+	/// Proof: `Staking::MinCommission` (`max_values`: Some(1), `max_size`: Some(4), added: 499, mode: `MaxEncodedLen`)
+	/// Storage: `Staking::MaxCommission` (r:0 w:1)
+	/// Proof: `Staking::MaxCommission` (`max_values`: Some(1), `max_size`: Some(4), added: 499, mode: `MaxEncodedLen`)
+	fn set_max_commission() -> Weight {
+		// Proof Size summary in bytes:
+		//  Measured:  `596`
+		//  Estimated: `1489`
+		// Minimum execution time: 8_042_000 picoseconds.
+		Weight::from_parts(8_839_000, 0)
+			.saturating_add(Weight::from_parts(0, 1489))
+			.saturating_add(T::DbWeight::get().reads(1))
+			.saturating_add(T::DbWeight::get().writes(1))
+	}
 	/// Storage: `System::Account` (r:1 w:0)
 	/// Proof: `System::Account` (`max_values`: None, `max_size`: Some(128), added: 2603, mode: `MaxEncodedLen`)
 	/// Storage: `Staking::VirtualStakers` (r:1 w:0)

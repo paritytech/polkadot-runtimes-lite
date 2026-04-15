@@ -350,7 +350,7 @@ impl EraPayout {
 			// Step every two years.
 			step_duration,
 		) else {
-			return 0
+			return 0;
 		};
 
 		// The last step size tells us the expected TI increase over the current two year
@@ -403,6 +403,7 @@ impl pallet_staking_async::EraPayout<Balance> for EraPayout {
 }
 
 parameter_types! {
+	pub const StakingPotsPalletId: PalletId = PalletId(*b"py/stkng");
 	pub const SessionsPerEra: SessionIndex = prod_or_fast!(6, 1);
 	pub const RelaySessionDuration: BlockNumber = prod_or_fast!(4 * RC_HOURS, RC_MINUTES);
 	pub const BondingDuration: sp_staking::EraIndex = 28;
@@ -451,6 +452,11 @@ impl pallet_staking_async::Config for Runtime {
 	type PlanningEraOffset = ConstU32<6>;
 	type RcClientInterface = StakingRcClient;
 	type MaxEraDuration = MaxEraDuration;
+	type DisableMinting = ConstBool<false>;
+	type UnclaimedRewardHandler = ResolveTo<xcm_config::TreasuryAccount, Balances>;
+	type RewardPots = pallet_staking_async::Seed<StakingPotsPalletId>;
+	type StakerRewardCalculator =
+		pallet_staking_async::reward::DefaultStakerRewardCalculator<Runtime>;
 	type MaxPruningItems = MaxPruningItems;
 	type WeightInfo = weights::pallet_staking_async::WeightInfo<Runtime>;
 }
@@ -1099,7 +1105,8 @@ mod tests {
 			use multi_block::verifier::WeightInfo;
 			analyze_weight(
 				"verifier valid terminal",
-				<Runtime as multi_block::verifier::Config>::WeightInfo::verification_valid_terminal(),
+				<Runtime as multi_block::verifier::Config>::WeightInfo::verification_valid_terminal(
+				),
 				<Runtime as frame_system::Config>::BlockWeights::get().max_block,
 				Some(Percent::from_percent(75)),
 			);

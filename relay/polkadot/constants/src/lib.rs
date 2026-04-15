@@ -267,16 +267,7 @@ mod tests {
 	}
 
 	#[derive(
-		Copy,
-		Clone,
-		Eq,
-		PartialEq,
-		Ord,
-		PartialOrd,
-		Encode,
-		Decode,
-		DecodeWithMemTracking,
-		Debug,
+		Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Encode, Decode, DecodeWithMemTracking, Debug,
 	)]
 	pub enum OldProxyType {
 		Any,

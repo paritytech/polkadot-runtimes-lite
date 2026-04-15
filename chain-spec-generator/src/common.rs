@@ -16,8 +16,7 @@
 // along with Polkadot.  If not, see <http://www.gnu.org/licenses/>.
 
 use crate::{
-	relay_chain_specs::PolkadotChainSpec,
-	system_parachains_specs::AssetHubPolkadotChainSpec,
+	relay_chain_specs::PolkadotChainSpec, system_parachains_specs::AssetHubPolkadotChainSpec,
 	ChainSpec,
 };
 

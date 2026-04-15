@@ -1061,6 +1061,8 @@ impl pallet_xcm_bridge_hub_router::Config<ToKusamaXcmRouterInstance> for Runtime
 		EitherOfDiverse<EnsureRoot<AccountId>, EnsureXcm<Equals<Self::SiblingBridgeHubLocation>>>;
 	type ToBridgeHubSender = XcmpQueue;
 
+	type UnpaidExport = frame_support::traits::ConstBool<true>;
+
 	type ByteFee = xcm_config::bridging::XcmBridgeHubRouterByteFee;
 	type FeeAsset = xcm_config::bridging::XcmBridgeHubRouterFeeAssetId;
 	type LocalXcmChannelManager =
